@@ -1,0 +1,22 @@
+emp_id,full_name,department,role,join_date,age,experience_years,monthly_salary_vnd,performance_score,overtime_hours,satisfaction_level,attrition_risk
+EMP-001,Nguyễn Hoàng Anh,Kỹ thuật (AI/Data),AI Engineer,2023-03-15,27,4,35000000,92,12,4.6,Thấp
+EMP-002,Trần Minh Quân,Phát triển Sản phẩm,Backend Developer,2022-07-01,29,6,32000000,88,18,4.2,Thấp
+EMP-002,Trần Minh Quân,Phát triển Sản phẩm,Backend Developer,2022-07-01,29,6,32000000,88,18,4.2,Thấp
+EMP-003,  lê thị ngọc mai ,Kinh doanh & Marketing,Growth Marketer,2024-01-10,25,2,18500000,85,25,3.8,Trung bình
+EMP-004,Phạm Quốc Đạt,Kỹ thuật (AI/Data),Data Analyst,2023-09-20,,3,24000000,90,10,4.5,Thấp
+EMP-005,Hoàng Bích Phương,Nhân sự & Vận hành,HR Specialist,2021-11-05,31,7,22000000,84,8,4.4,Thấp
+EMP-006,Vũ Tuấn Kiệt,Phát triển Sản phẩm,Frontend Developer,2023/05/12,26,-1,25000000,79,32,3.1,Cao
+EMP-007,Đặng Thu Hà,Kinh doanh & Marketing,Sales Executive,2024-02-18,24,2,16000000,,40,2.8,Cao
+EMP-008,Bùi Đức Duy,Kỹ thuật (AI/Data),MLOps Engineer,2021-04-10,32,8,45000000,95,15,4.8,Thấp
+EMP-009,Ngô Thanh Tùng,kinh doanh & marketing,Account Manager,2022-08-22,28,5,26000000,86,20,3.9,Trung bình
+EMP-010,Dương Mỹ Linh,Tài chính & Kế toán,Financial Analyst,2022-01-15,30,6,28000000,91,14,,Thấp
+EMP-011,Lý Quang Vinh,Kỹ thuật (AI/Data),Data Scientist,2020-06-01,34,10,250000000,96,10,4.9,Thấp
+EMP-012,Trịnh Bảo Châu,Phát triển Sản phẩm,UI/UX Designer,2023-10-05,25,3,23000000,89,12,4.3,Thấp
+EMP-013,Phan Văn Hùng,,QA Automation,2023-04-18,27,4,21000000,82,22,3.6,Trung bình
+EMP-014,Đỗ Thị Lan Anh,Kinh doanh & Marketing,Content Lead,2022-12-01,28,5,,87,16,4.1,Thấp
+EMP-015,Hồ Minh Khang,Phát triển Sản phẩm,Fullstack Developer,2021-09-14,31,7,36000000,93,15,4.5,Thấp
+EMP-016,Võ Ngọc Trâm,Nhân sự & Vận hành,Talent Acquisition,2024-03-01,23,1,15000000,80,18,4.0,Trung bình
+EMP-017,Đinh Gia Huy,Kỹ thuật (AI/Data),AI Engineer,2022-05-20,29,5,38000000,94,11,4.7,Thấp
+EMP-018,Lương Thị Tuyết,Tài chính & Kế toán,Chief Accountant,2019-08-10,37,13,42000000,92,12,4.6,Thấp
+EMP-019,Tạ Quốc Khánh,Phát triển Sản phẩm,Backend Developer,2023-07-15,150,3,27000000,83,28,3.3,Cao
+EMP-020,Châu Bảo Ngọc,Kinh doanh & Marketing,Performance Marketer,2023-11-11,26,3,20000000,88,24,3.7,Trung bình

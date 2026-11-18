@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataMind AI Agent — Nền Tảng Phân Tích Dữ Liệu Tự Hành</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700;1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/styles.css?v=3.9">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TOAST NOTIFICATION CONTAINER (THAY THẾ TOÀN BỘ ALERT TRÌNH DUYỆT)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PREMIUM SAAS HEADER / NAVIGATION CÓ SLIDING ACTIVE INDICATOR
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<header class="topbar" id="topbar">
+  <div class="tb-left">
+    <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Về đầu trang">AI</div>
+    <div class="brand-text">
+      <h1>DataMind AI <span class="tag-badge">AI Analytics</span></h1>
+    </div>
+  </div>
+
+  <!-- THANH ĐIỀU HƯỚNG TRUNG TÂM VỚI ACTIVE PILL TRƯỢT NỀN HỒNG -->
+  <nav class="nav-center" id="navCenter" aria-label="Điều hướng chính">
+    <div class="nav-active-pill" id="navActivePill"></div>
+    <a href="#heroBanner" class="nav-link active" data-nav="heroBanner">Trang chủ</a>
+    <a href="#featuresSection" class="nav-link" data-nav="featuresSection">Tính năng</a>
+    <a href="#stepper" class="nav-link" data-nav="pipeline">Quy trình 5 chặng</a>
+    <a href="#p5" class="nav-link" data-nav="report" id="navReportLink">Báo cáo &amp; Dashboard</a>
+    <a href="javascript:void(0)" class="nav-link" data-nav="guide" onclick="openGuideModal()">Hướng dẫn</a>
+  </nav>
+
+  <div class="tb-right">
+    <!-- Bảng màu nhận diện 5 mã màu pastel -->
+    <div class="palette-dots" title="Bảng màu pastel chuẩn: #cdb4db · #ffc8dd · #ffafcc · #bde0fe · #a2d2ff">
+      <span class="p-swatch" style="background:#cdb4db"></span>
+      <span class="p-swatch" style="background:#ffc8dd"></span>
+      <span class="p-swatch" style="background:#ffafcc"></span>
+      <span class="p-swatch" style="background:#bde0fe"></span>
+      <span class="p-swatch" style="background:#a2d2ff"></span>
+    </div>
+
+    <!-- KHU VỰC XÁC THỰC NGƯỜI DÙNG: KHÁCH (CHƯA ĐĂNG NHẬP) -->
+    <div class="guest-auth-group" id="guestAuthGroup">
+      <button class="btn btn-outline btn-sm" onclick="openAuthModal('login')">Đăng nhập</button>
+      <button class="btn btn-primary btn-sm" onclick="openAuthModal('register')">Đăng ký</button>
+    </div>
+
+    <!-- KHU VỰC XÁC THỰC NGƯỜI DÙNG: ĐÃ ĐĂNG NHẬP -->
+    <div class="user-menu-wrapper" id="userMenuWrapper" style="display:none">
+      <button class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown(event)" aria-haspopup="true">
+        <div class="user-avatar" id="headerAvatar">US</div>
+        <span class="user-name-label" id="headerUserName">Người dùng</span>
+        <span style="font-size:10px;color:var(--t3)">▼</span>
+      </button>
+
+      <div class="user-dropdown" id="userDropdown">
+        <div class="dropdown-header">
+          <div class="dropdown-user-name" id="dropdownUserName">Người dùng</div>
+          <div class="dropdown-user-email" id="dropdownUserEmail">email@domain.com</div>
+        </div>
+        <button class="dropdown-item" onclick="openAccountModal()">
+          <span>👤</span> Thông tin tài khoản
+        </button>
+        <button class="dropdown-item" onclick="openChangePasswordModal()">
+          <span>🔑</span> Đổi mật khẩu
+        </button>
+        <button class="dropdown-item" onclick="openGuideModal()">
+          <span>📘</span> Hướng dẫn sử dụng
+        </button>
+        <hr style="border:none;border-top:1px solid var(--border-light);margin:4px 0">
+        <button class="dropdown-item danger" onclick="handleLogout()">
+          <span>🚪</span> Đăng xuất
+        </button>
+      </div>
+    </div>
+
+    <!-- Toggle menu trên di động -->
+    <button class="mobile-nav-toggle" onclick="toggleMobileNav()" title="Menu">☰</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       HERO BANNER CHUẨN MẪU THIẾT KẾ VỚI VÒNG XOAY CHỮ & CARD FLOATING
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="hero-banner" id="heroBanner">
+    <div>
+      <div class="hero-badge-top">
+        • AI AGENT DATA STUDIO • MULTI-AGENT WORKFLOW • HUMAN-IN-THE-LOOP &amp; ADVANCED ANALYTICS
+      </div>
+      <h1 class="hero-title">
+        Chuẩn Hóa Pipeline, <span class="serif-italic">Làm Sạch Dữ Kiện</span> &amp; Dự Kiến Doanh Số
+      </h1>
+      <p class="hero-desc">
+        Hệ thống AI Agent giải quyết triệt để bài toán xử lý và phân tích dữ liệu tự hành: tự động hợp nhất cơ hội trùng lặp,
+        chuẩn hóa lỗi định dạng chuỗi &amp; ngày tháng, xử lý khuyết thiếu, phát hiện ngoại lai cực đoan theo tứ phân vị IQR,
+        trình kết quả trực quan cho người dùng phê duyệt (<strong>Human-in-the-Loop</strong>) và tự động xuất báo cáo HTML tương tác chuyên sâu.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-hero-start" onclick="scrollToUpload()">
+          BẮT ĐẦU QUY TRÌNH ↓
+        </button>
+        <button class="btn btn-hero-outline" onclick="openGuideModal()">
+          Xem Hướng Dẫn &amp; AI Insights ↗
+        </button>
+      </div>
+    </div>
+
+    <!-- KHU VỰC MINH HỌA QUỸ ĐẠO AI VỚI VÒNG CHỮ XOAY & CARD FLOATING -->
+    <div class="hero-visual" id="heroVisual">
+      <!-- Vòng quỹ đạo ngoài (quay cùng chiều kim đồng hồ) -->
+      <div class="orbit-circle-1"></div>
+
+      <!-- Vòng quỹ đạo trong (quay ngược chiều kim đồng hồ) -->
+      <div class="orbit-circle-2"></div>
+
+      <!-- Vòng chữ chạy tròn quanh tâm bằng SVG textPath -->
+      <svg class="orbit-text-ring" viewBox="0 0 320 320" width="320" height="320" aria-hidden="true">
+        <defs>
+          <path id="orbitTextPath" d="M 160, 160 m -118, 0 a 118,118 0 1,1 236,0 a 118,118 0 1,1 -236,0" fill="none" />
+        </defs>
+        <text class="orbit-ring-text">
+          <textPath href="#orbitTextPath" startOffset="0%">
+            • DATA CLEANING • AI INSIGHTS • HUMAN APPROVAL • REPORT EXPORT •
+          </textPath>
+        </text>
+      </svg>
+
+      <!-- Khối trung tâm DataMind AI nổi lơ lửng (Floating Animation) -->
+      <div class="orbit-core-card" id="orbitCoreCard">
+        <div class="core-icon">✨</div>
+        <div class="core-title">DATAMIND AI</div>
+        <div class="core-sub">4 Agents · 5 Chặng</div>
+
+        <!-- Trạng thái "SẴN SÀNG" màu xanh nổi bật với nhịp pulse nhẹ -->
+        <div class="orbit-status-pill" id="orbitStatusPill" title="Trạng thái hệ thống AI Agent">
+          <span class="status-pulse-dot"></span>
+          <span class="status-text" id="orbitStatusText">SẴN SÀNG</span>
+        </div>
+      </div>
+
+      <!-- 4 NHÃN CHỨC NĂNG QUAY TRÒN QUANH KHỐI TRUNG TÂM (ORBITING BADGES) -->
+      <div class="orbit-badges-ring" id="orbitBadgesRing">
+        <div class="orbit-arm arm-top-left">
+          <div class="orbit-badge">✓ Hợp nhất trùng lặp</div>
+        </div>
+        <div class="orbit-arm arm-top-right">
+          <div class="orbit-badge">✓ Tách doanh số đã bán</div>
+        </div>
+        <div class="orbit-arm arm-bottom-right">
+          <div class="orbit-badge">★ Top 5 Ưu tiên tuần tới</div>
+        </div>
+        <div class="orbit-arm arm-bottom-left">
+          <div class="orbit-badge">✓ Trọng số chuẩn 10–75%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       FEATURE CARDS SECTION (GIỚI THIỆU 6 TÍNH NĂNG CỐT LÕI)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="features-section" id="featuresSection">
+    <div class="section-head-center">
+      <h2>Năng Lực AI Agent Toàn Diện</h2>
+      <p>Kiến trúc Multi-Agent phối hợp khép kín từ khâu tiếp nhận đến xuất báo cáo tương tác</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal-on-scroll">
+        <div class="feature-icon-box">🔍</div>
+        <h3>1. Quét Cấu Trúc &amp; Bắt Lỗi</h3>
+        <p>Tự động nhận diện kiểu dữ liệu số, ngày tháng, văn bản; kiểm tra toàn vẹn định dạng và phát hiện file hỏng ngay lập tức.</p>
+      </div>
+      <div class="feature-card reveal-on-scroll">
+        <div class="feature-icon-box">🧹</div>
+        <h3>2. Làm Sạch Dữ Liệu Thông Minh</h3>
+        <p>Khử trùng lặp đa trường, chuẩn hóa định dạng số/ngày, xử lý ô trống (imputation) và phát hiện ngoại lai cực đoan bằng IQR.</p>
+      </div>
+      <div class="feature-card reveal-on-scroll">
+        <div class="feature-icon-box">👥</div>
+        <h3>3. Human-in-the-Loop Kiểm Duyệt</h3>
+        <p>Người dùng nắm toàn quyền bật/tắt từng quy tắc, chọn chiến lược xử lý, so sánh trực quan trước/sau và kích hoạt làm sạch lại.</p>
+      </div>
+      <div class="feature-card reveal-on-scroll">
+        <div class="feature-icon-box">⚡</div>
+        <h3>4. Phân Tích &amp; Suy Luận Đa Chiều</h3>
+        <p>Tính toán tổng hợp chỉ số KPI, phân bổ tỷ trọng, xác định trung vị, phân tích xu hướng tích lũy và tổng hợp nhận định AI.</p>
+      </div>
+      <div class="feature-card reveal-on-scroll">
+        <div class="feature-icon-box">📊</div>
+        <h3>5. Dashboard 4 Biểu Đồ Trực Quan</h3>
+        <p>Hệ thống trực quan hóa đa dạng gồm Cột ngang phân khúc, Donut tỷ trọng, Vùng (Area) xu hướng và Radar 5 trục chất lượng.</p>
+      </div>
+      <div class="feature-card reveal-on-scroll">
+        <div class="feature-icon-box">📄</div>
+        <h3>6. Xuất Báo Cáo HTML &amp; Dữ Liệu Sạch</h3>
+        <p>Sinh báo cáo HTML độc lập, hỗ trợ chỉnh sửa nội dung trực tiếp, in PDF chuẩn định dạng và tải xuống bộ dữ liệu CSV đã sạch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       STEPPER 5 CHẶNG TIẾN TRÌNH
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <nav class="stepper" id="stepper"></nav>
+
+  <!-- ═══ CHẶNG 1: NHẬP DỮ LIỆU & QUÉT CẤU TRÚC ═══ -->
+  <section class="panel visible" id="p1">
+    <div class="panel-head"><div>
+      <span class="chip">CHẶNG 1 / 5</span>
+      <h2>Nhập dữ liệu đầu vào &amp; Quét cấu trúc</h2>
+      <p>Tải lên file dữ liệu (.xlsx, .csv, .json) hoặc chọn bộ dữ liệu mẫu bên dưới. AI Agent sẽ kiểm tra cấu trúc các cột, quét lỗi và thông báo ngay nếu file bị lỗi.</p>
+    </div></div>
+
+    <!-- KHU VỰC HIỂN THỊ CẢNH BÁO LỖI NẠP FILE (NẾU FILE BỊ HỎNG / SAI ĐỊNH DẠNG) -->
+    <div id="uploadErrorContainer" style="display:none"></div>
+
+    <div id="p1Result"></div>
+
+    <div class="upload" id="uploadBox">
+      <div class="upload-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+      <h2 id="uploadTitle">Tải lên file dữ liệu của bạn</h2>
+      <p>Kéo thả file Excel (.xlsx, .xls) hoặc CSV (.csv) vào đây hoặc bấm nút chọn file</p>
+      <button class="btn btn-primary" id="btnPick" onclick="document.getElementById('fileInput').click()">Chọn file dữ liệu từ máy tính</button>
+      <div class="or">hoặc chọn nhanh bộ dữ liệu mẫu có sẵn lỗi thực tế để kiểm thử</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn btn-outline btn-sm" id="btnDefault1" onclick="useSample('ecommerce_sales_dirty.csv', this)">📦 Mẫu 1: Thương mại điện tử (Doanh số &amp; Cơ hội)</button>
+        <button class="btn btn-outline btn-sm" id="btnDefault2" onclick="useSample('hr_employee_dirty.csv', this)">👥 Mẫu 2: Nhân sự &amp; Đánh giá Hiệu suất (HR)</button>
+        <button class="btn btn-outline btn-sm" id="btnDefault3" onclick="useSample('student_academic_dirty.csv', this)">🎓 Mẫu 3: Kết quả Học tập Sinh viên</button>
+      </div>
+      <div style="display:flex;justify-content:center">
+        <button class="btn btn-danger-outline btn-sm" onclick="testCorruptedFile(this)" title="Thử nghiệm nạp một file bị hỏng để kiểm tra cơ chế cảnh báo lỗi của hệ thống">
+          ⚠️ Thử nghiệm nạp file lỗi (Kiểm tra cơ chế cảnh báo lỗi)
+        </button>
+      </div>
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv,.json,.txt" onchange="pickFile(this)">
+      <details class="tpl">
+        <summary>Xem các tiêu chuẩn kiểm tra file hợp lệ của AI Agent</summary>
+        <div class="tpl-grid">
+          <div><strong>1. Định dạng file</strong>Hỗ trợ file Excel <code>.xlsx</code>, <code>.xls</code> hoặc CSV phân cách dấu phẩy, JSON. Tệp không được rỗng (0 bytes).</div>
+          <div><strong>2. Cấu trúc bảng</strong>File phải có tối thiểu 2 cột dữ liệu phân biệt và tối thiểu 1 dòng quan sát ngoài dòng tiêu đề.</div>
+          <div><strong>3. Cơ chế bắt lỗi</strong>Nếu file bị mất định dạng, sai dấu phân cách hoặc hỏng cấu trúc, AI Agent sẽ dừng lại và hiển thị bảng báo lỗi chi tiết.</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="actions" id="p1Actions" style="display:none">
+      <button class="btn btn-outline" onclick="resetAll()">← Chọn file khác</button>
+      <div class="right"><button class="btn btn-primary" id="btnToClean" onclick="goClean()">Tiếp tục: Làm sạch dữ liệu →</button></div>
+    </div>
+  </section>
+
+  <!-- ═══ CHẶNG 2: LÀM SẠCH DỮ LIỆU & KIỂM DUYỆT ═══ -->
+  <section class="panel" id="p2">
+    <div class="panel-head"><div>
+      <span class="chip">CHẶNG 2 / 5</span>
+      <h2>Làm sạch dữ liệu &amp; Kiểm duyệt trực quan</h2>
+      <p>Bật hoặc tắt các quy tắc, chọn lại phương pháp xử lý rồi bấm <b>Làm sạch lại</b> để xem kết quả đối chiếu. Khi thấy dữ liệu đã đúng ý, bấm <b>Dữ liệu đã ổn, sang Xử lý</b>.</p>
+    </div></div>
+
+    <div class="kpi-grid" id="cleanKpi"></div>
+    <div id="cleanAlert"></div>
+
+    <!-- KHỐI SỬA DỮ LIỆU THEO YÊU CẦU RIÊNG (CUSTOM CORRECTION & HUMAN-IN-THE-LOOP) -->
+    <div class="card custom-cleaning-card" id="customCleaningCard">
+      <div class="custom-card-head">
+        <div class="custom-card-icon">✏️</div>
+        <div>
+          <div class="custom-card-title">Sửa &amp; Chuẩn Hóa Dữ Liệu Theo Yêu Cầu Riêng</div>
+          <div class="custom-card-sub">
+            Nếu dữ liệu bị sai lệch, phân loại không đồng nhất (như <i>"Mien Nam"</i> và <i>"Miền Nam"</i>) hoặc cần lọc điều kiện riêng: nhập yêu cầu bằng tiếng Việt bên dưới, bấm <b>Áp dụng</b> hoặc <b>nhấp đúp vào ô bất kỳ trên bảng dữ liệu</b> để sửa trực tiếp.
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-input-group">
+        <textarea id="customInstructionInput" class="custom-instruction-box" rows="2" placeholder="Ví dụ: Đổi 'Mien Nam' thành 'Miền Nam'; Thay 'HCM' bằng 'TP. Hồ Chí Minh'; Xóa dòng có số âm; Điền ô trống cột Doanh Thu bằng 0..."></textarea>
+        <div class="custom-btn-row">
+          <button class="btn btn-primary btn-sm" id="btnApplyCustom" onclick="applyCustomInstruction()">⚡ Áp dụng sửa theo yêu cầu</button>
+          <button class="btn btn-outline btn-sm" id="btnResetCustom" onclick="resetCustomInstruction()">↺ Đặt lại yêu cầu</button>
+          <span class="custom-edit-status" id="customEditStatus"></span>
+        </div>
+      </div>
+
+      <!-- Quick Suggestion Chips (Gợi ý 1 chạm) -->
+      <div class="custom-chips-row">
+        <span class="chips-label">Gợi ý nhanh:</span>
+        <button type="button" class="quick-chip" onclick="addCustomChip('Đổi \'Mien Nam\' thành \'Miền Nam\'')">🏷️ Đổi 'Mien Nam' → 'Miền Nam'</button>
+        <button type="button" class="quick-chip" onclick="addCustomChip('Thay \'HCM\' bằng \'TP. Hồ Chí Minh\'')">🏷️ Sửa 'HCM' → 'TP. Hồ Chí Minh'</button>
+        <button type="button" class="quick-chip" onclick="addCustomChip('Xóa dòng có số âm')">❌ Lọc bỏ dòng có số âm</button>
+        <button type="button" class="quick-chip" onclick="addCustomChip('Viết hoa chữ đầu')">🔤 Chuẩn hóa viết hoa chữ đầu</button>
+        <button type="button" class="quick-chip" onclick="addCustomChip('Điền ô trống bằng 0')">0️⃣ Điền ô trống bằng 0</button>
+      </div>
+    </div>
+
+    <div class="clean-grid">
+      <div class="card">
+        <h3>Quy tắc làm sạch của AI Agent</h3>
+        <div id="optList"></div>
+        <div class="dirty-note" id="dirtyNote">Bạn đã đổi quy tắc. Hãy bấm "Làm sạch lại" để áp dụng.</div>
+        <button class="btn btn-blue btn-sm" style="margin-top:12px;width:100%;justify-content:center" id="btnReclean" onclick="runClean()">↻ Làm sạch lại</button>
+      </div>
+      <div>
+        <div class="card">
+          <h3>Kết quả từng quy tắc <span class="muted" style="font-weight:400;font-size:.78rem">(bấm vào dòng để xem các ô/dòng dữ liệu bị ảnh hưởng)</span></h3>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Quy tắc &amp; Vấn đề phát hiện</th><th>Cột áp dụng</th><th style="text-align:right">Số điểm lỗi</th><th>Hành động</th></tr></thead>
+            <tbody id="ruleTable"></tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <h3>Xem trước dữ liệu sau khi làm sạch <span class="muted" style="font-weight:400;font-size:.78rem">(15 dòng đầu — <b>nhấp đúp vào ô để sửa trực tiếp</b>, ô màu xanh là đã chuẩn hóa, ô màu hồng là sửa theo yêu cầu)</span></h3>
+          <div class="tbl-wrap"><table id="previewTable"></table></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-outline" onclick="back(1)">← Quay lại: chọn file khác</button>
+      <div class="right"><button class="btn btn-primary" id="btnAcceptClean" onclick="acceptClean()">Dữ liệu đã ổn, sang Xử lý →</button></div>
+    </div>
+  </section>
+
+  <!-- ═══ CHẶNG 3: XỬ LÝ DỮ LIỆU & SUY LUẬN AI ═══ -->
+  <section class="panel" id="p3">
+    <div class="panel-head"><div>
+      <span class="chip">CHẶNG 3 / 5</span>
+      <h2>Xử lý &amp; Phân tích dữ liệu bằng AI Agent</h2>
+      <p>Hệ thống chạy 4 bước suy luận và tính toán trên dữ liệu đã làm sạch. Kết quả chỉ được xuất ra báo cáo sau khi bạn xác nhận ở chặng 4.</p>
+    </div></div>
+    <div id="procAlert"></div>
+    <div class="card">
+      <div class="proc-list" id="procList"></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-outline" id="btnProcBack" onclick="back(2)">← Quay lại: làm sạch</button>
+      <div class="right">
+        <button class="btn btn-primary" id="btnProcess" onclick="runProcess()">▶ Bắt đầu xử lý</button>
+        <button class="btn btn-primary" id="btnToConfirm" style="display:none" onclick="showStage(4)">Sang bước xác nhận →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CHẶNG 4: XÁC NHẬN KẾT QUẢ (HUMAN-IN-THE-LOOP) ═══ -->
+  <section class="panel" id="p4">
+    <div class="panel-head"><div>
+      <span class="chip">CHẶNG 4 / 5</span>
+      <h2>Xác nhận kết quả phân tích</h2>
+      <p>Kiểm tra số liệu tổng hợp và nhận định của AI Agent trước khi xuất báo cáo HTML trực tiếp. Nếu thấy chưa đúng, bạn có thể quay lại bước làm sạch.</p>
+    </div></div>
+    <div id="confirmRecon"></div>
+    <div class="kpi-grid" id="confirmKpi"></div>
+    <div class="card">
+      <h3 id="confirmTableTitle">Kết quả phân tích theo nhóm danh mục</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Nhóm / Phân khúc</th><th style="text-align:right">Số bản ghi</th><th style="text-align:right">Tổng giá trị</th><th style="text-align:right">Trung bình (Mean)</th><th style="text-align:right">Trung vị (Median)</th><th style="text-align:right">Tỷ trọng %</th><th>Đánh giá AI Agent</th></tr></thead>
+        <tbody id="confirmTable"></tbody>
+      </table></div>
+    </div>
+    <label class="confirm-box">
+      <input type="checkbox" id="chkConfirm" onchange="updConfirm()">
+      Tôi đã kiểm tra số liệu làm sạch &amp; phân tích ở trên và đồng ý xuất báo cáo HTML trực tiếp trên giao diện.
+    </label>
+    <div class="actions">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="back(2)">← Làm sạch lại</button>
+        <button class="btn btn-outline" onclick="back(1)">← Chọn file khác</button>
+      </div>
+      <div class="right"><button class="btn btn-primary" id="btnConfirm" disabled onclick="confirmExport()">✓ Xác nhận &amp; xuất báo cáo HTML</button></div>
+    </div>
+  </section>
+
+  <!-- ═══ CHẶNG 5: BÁO CÁO & DASHBOARD ĐA BIỂU ĐỒ ═══ -->
+  <section class="panel" id="p5">
+    <div class="report-head">
+      <div>
+        <span class="chip" style="background:var(--soft-pink);color:var(--t1);border-color:var(--rose-pink)">CHẶNG 5 / 5 · ĐÃ XÁC NHẬN</span>
+        <h2 style="font-size:1.25rem;font-weight:700">Báo cáo &amp; Dashboard Trực quan hóa</h2>
+        <p class="muted" id="reportMeta" style="font-size:.85rem;margin-top:4px"></p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-outline btn-sm" onclick="resetAll()">＋ Phân tích file mới</button>
+        <button class="btn btn-outline btn-sm" onclick="downloadCleanedCSV()">⬇ Tải dữ liệu sạch (.CSV)</button>
+        <button class="btn btn-outline btn-sm" onclick="printHtmlReport()">🖨️ In / Lưu PDF</button>
+        <button class="btn btn-primary btn-sm" onclick="downloadStandaloneHTML()">⬇ Tải báo cáo HTML</button>
+      </div>
+    </div>
+
+    <!-- HỆ THỐNG 4 THẺ KPI TỔNG HỢP -->
+    <div class="kpi-grid" id="reportKpi"></div>
+
+    <!-- KHUNG TỔNG HỢP CHỈ SỐ DOANH THU & HIỆU SUẤT TÀI CHÍNH -->
+    <div id="revenueExecutiveBanner" style="display:none;margin-bottom:22px"></div>
+
+    <!-- HỆ THỐNG 4 BIỂU ĐỒ TRỰC QUAN HÓA THÂN THIỆN, DỄ NHÌN, DỄ HIỂU -->
+    <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">Hệ Thống Biểu Đồ Trực Quan Hóa Đa Chiều &amp; Doanh Thu</h3>
+    <div class="multi-charts-grid">
+      <!-- BIỂU ĐỒ 1: SO SÁNH QUY MÔ / HIỆU SUẤT THEO PHÂN KHÚC (BAR) -->
+      <div class="chart-card reveal-on-scroll">
+        <div class="chart-card-head">
+          <div>
+            <h3>1. So sánh Đối chiếu theo Phân khúc (Chưa làm sạch vs Đã làm sạch)</h3>
+            <div class="chart-stat-sub" id="chart1Stat"></div>
+          </div>
+          <span class="chart-badge">Biểu đồ Cột Kép Đối Chiếu</span>
+        </div>
+        <div class="chart-box-large"><canvas id="marginChart"></canvas></div>
+      </div>
+
+      <!-- BIỂU ĐỒ 2: CƠ CẤU TỶ TRỌNG ĐÓNG GÓP (DOUGHNUT) -->
+      <div class="chart-card reveal-on-scroll">
+        <div class="chart-card-head">
+          <div>
+            <h3>2. Cơ cấu Tỷ trọng Đóng góp (%)</h3>
+            <div class="chart-stat-sub" id="chart2Stat"></div>
+          </div>
+          <span class="chart-badge">Biểu đồ Donut</span>
+        </div>
+        <div class="chart-box-large"><canvas id="revenueChart"></canvas></div>
+      </div>
+
+      <!-- BIỂU ĐỒ 3: XU HƯỚNG THEO THỜI GIAN HOẶC TÍCH LŨY (AREA/LINE) -->
+      <div class="chart-card reveal-on-scroll">
+        <div class="chart-card-head">
+          <div>
+            <h3 id="trendChartTitle">3. Xu hướng Chuỗi Thời gian / Tích lũy</h3>
+            <div class="chart-stat-sub" id="chart3Stat"></div>
+          </div>
+          <span class="chart-badge">Biểu đồ Vùng (Area)</span>
+        </div>
+        <div class="chart-box-large"><canvas id="trendChart"></canvas></div>
+      </div>
+
+      <!-- BIỂU ĐỒ 4: ĐÁNH GIÁ ĐA CHIỀU CHẤT LƯỢNG DỮ LIỆU (RADAR CHART) -->
+      <div class="chart-card reveal-on-scroll">
+        <div class="chart-card-head">
+          <div>
+            <h3>4. Đánh giá Chất lượng Dữ liệu (Chưa làm sạch vs Đã làm sạch)</h3>
+            <div class="chart-stat-sub" id="chart4Stat"></div>
+          </div>
+          <span class="chart-badge">Radar Đối Chiếu Đa Chiều</span>
+        </div>
+        <div class="chart-box-large"><canvas id="radarHealthChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- THẺ CHI TIẾT TỪNG PHÂN KHÚC -->
+    <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">Chi tiết từng phân khúc &amp; Khuyến nghị của AI Agent</h3>
+    <div class="program-cards" id="programCards"></div>
+
+    <div class="card">
+      <h3>Bảng kết quả tổng hợp &amp; Khuyến nghị</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Phân khúc</th><th style="text-align:right">Số bản ghi</th><th style="text-align:right">Tổng chỉ số</th><th style="text-align:right">Trung bình</th><th style="text-align:right">Trung vị</th><th style="text-align:right">Tỷ trọng %</th><th>Khuyến nghị</th></tr></thead>
+        <tbody id="reportTable"></tbody>
+      </table></div>
+    </div>
+
+    <!-- KHUNG BÁO CÁO HTML ĐẦY ĐỦ TRỰC TIẾP TRÊN GIAO DIỆN -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px">
+        <h3 style="margin-bottom:0">Báo cáo HTML Xuất Trực Tiếp Trên Giao Diện <span class="muted" style="font-weight:400;font-size:.78rem">(Có thể chỉnh sửa trực tiếp hoặc tải file .html độc lập)</span></h3>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-outline btn-sm" id="btnLiveEdit" onclick="toggleDirectEditReport()">✏️ Sửa trực tiếp trên báo cáo</button>
+          <button class="btn btn-outline btn-sm" onclick="copyHtmlSource()">📋 Copy mã HTML</button>
+        </div>
+      </div>
+      <div style="border:1.5px solid var(--border);border-radius:var(--r-sm);overflow:hidden;background:#fff">
+        <iframe id="html-report-iframe" style="width:100%;height:750px;border:none;display:block" title="Báo cáo HTML Trực tiếp"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">DataMind AI Agent · Chuẩn Hóa Pipeline, Làm Sạch Dữ Kiện &amp; Dự Kiến Doanh Số</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MODAL ĐĂNG NHẬP / ĐĂNG KÝ (FLOATING GLASSMORPHISM MODAL VỚI CUỘN AN TOÀN)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+  <div class="auth-modal-card">
+    <button class="modal-close-btn" onclick="closeAuthModal()" title="Đóng modal (Esc)" aria-label="Đóng">&times;</button>
+    
+    <!-- HEADER CỐ ĐỊNH Ở ĐẦU MODAL -->
+    <div class="auth-modal-hero">
+      <div class="auth-hero-logo">✨</div>
+      <h2 id="authModalTitle">Chào mừng đến DataMind AI</h2>
+      <p id="authModalSubtitle">Hệ thống AI Agent Phân tích &amp; Làm sạch dữ liệu tự hành</p>
+    </div>
+
+    <!-- TABS CHUYỂN ĐỔI ĐĂNG NHẬP / ĐĂNG KÝ (CỐ ĐỊNH) -->
+    <div class="auth-tabs" role="tablist">
+      <button class="auth-tab-btn active" id="tabLoginBtn" role="tab" aria-selected="true" onclick="switchAuthTab('login')">Đăng nhập</button>
+      <button class="auth-tab-btn" id="tabRegisterBtn" role="tab" aria-selected="false" onclick="switchAuthTab('register')">Đăng ký mới</button>
+    </div>
+
+    <!-- KHU VỰC CUỘN ĐỘC LẬP BÊN TRONG MODAL (KHÔNG BAO GIỜ BỊ CẮT FORM) -->
+    <div class="auth-form-scrollable" id="authFormScrollable">
+      <!-- FORM ĐĂNG NHẬP -->
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginEmail">Email hoặc Tên đăng nhập</label>
+          <div class="input-with-icon">
+            <input type="text" id="loginEmail" class="input-field" placeholder="nhap.email@example.com" required autocomplete="username">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Mật khẩu</label>
+          <div class="input-with-icon">
+            <input type="password" id="loginPassword" class="input-field" placeholder="Nhập mật khẩu" required autocomplete="current-password">
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('loginPassword', this)">👁</button>
+          </div>
+        </div>
+        <div class="form-row-between">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:500;color:var(--t2)">
+            <input type="checkbox" id="loginRemember" style="accent-color:var(--rose-pink)"> Nhớ đăng nhập
+          </label>
+          <a href="javascript:void(0)" class="form-link" onclick="openForgotModal()">Quên mật khẩu?</a>
+        </div>
+        <div class="auth-error-msg" id="loginErrorMsg"></div>
+        <button type="submit" class="btn btn-primary btn-auth-submit" id="btnLoginSubmit">
+          Đăng nhập ngay →
+        </button>
+      </form>
+
+      <!-- FORM ĐĂNG KÝ -->
+      <form id="registerForm" style="display:none" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label for="regFullName">Họ và tên hiển thị</label>
+          <input type="text" id="regFullName" class="input-field" placeholder="Nguyễn Văn A" required>
+        </div>
+        <div class="form-group">
+          <label for="regUsername">Tên tài khoản (viết liền không dấu)</label>
+          <input type="text" id="regUsername" class="input-field" placeholder="nguyenvana" pattern="^[a-zA-Z0-9_]{3,30}$" title="Từ 3-30 ký tự chữ cái, số hoặc gạch dưới" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Địa chỉ Email</label>
+          <input type="email" id="regEmail" class="input-field" placeholder="nguyenvana@example.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Mật khẩu</label>
+          <div class="input-with-icon">
+            <input type="password" id="regPassword" class="input-field" placeholder="Tối thiểu 8 ký tự, có số &amp; chữ" required autocomplete="new-password" oninput="checkRegPasswordStrength(this.value)">
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('regPassword', this)">👁</button>
+          </div>
+          <div class="pwd-meter" id="regPwdMeter"><div class="pwd-meter-fill" id="regPwdMeterFill"></div></div>
+          <div class="pwd-hint">
+            <span id="regPwdHintText">Độ mạnh mật khẩu</span>
+            <span id="regPwdScoreText"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regPasswordConfirm">Xác nhận lại mật khẩu</label>
+          <div class="input-with-icon">
+            <input type="password" id="regPasswordConfirm" class="input-field" placeholder="Nhập lại mật khẩu phía trên" required autocomplete="new-password">
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('regPasswordConfirm', this)">👁</button>
+          </div>
+        </div>
+        <div class="auth-error-msg" id="regErrorMsg"></div>
+        <button type="submit" class="btn btn-primary btn-auth-submit" id="btnRegSubmit">
+          Tạo tài khoản miễn phí →
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MODAL QUÊN MẬT KHẨU (FORGOT PASSWORD)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="forgotModal" role="dialog" aria-modal="true">
+  <div class="auth-modal-card">
+    <button class="modal-close-btn" onclick="closeForgotModal()" title="Đóng modal (Esc)" aria-label="Đóng">&times;</button>
+    <div class="auth-modal-hero">
+      <div class="auth-hero-logo">🔑</div>
+      <h2>Khôi phục Mật khẩu</h2>
+      <p>Nhập email tài khoản của bạn để nhận mã token đặt lại mật khẩu</p>
+    </div>
+    <div class="auth-form-scrollable">
+      <form onsubmit="handleForgotPassword(event)">
+        <div class="form-group">
+          <label for="forgotEmail">Email đã đăng ký</label>
+          <input type="email" id="forgotEmail" class="input-field" placeholder="email@example.com" required>
+        </div>
+        <div class="auth-error-msg" id="forgotErrorMsg"></div>
+        <button type="submit" class="btn btn-primary btn-auth-submit" id="btnForgotSubmit">
+          Gửi yêu cầu đặt lại mật khẩu
+        </button>
+        <div style="text-align:center;margin-top:14px">
+          <a href="javascript:void(0)" class="form-link" onclick="closeForgotModal(); openAuthModal('login')">← Quay lại Đăng nhập</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MODAL ĐỔI MẬT KHẨU (CHANGE PASSWORD)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="changePasswordModal" role="dialog" aria-modal="true">
+  <div class="auth-modal-card">
+    <button class="modal-close-btn" onclick="closeChangePasswordModal()" title="Đóng modal (Esc)" aria-label="Đóng">&times;</button>
+    <div class="auth-modal-hero">
+      <div class="auth-hero-logo">🔒</div>
+      <h2>Đổi Mật Khẩu</h2>
+      <p>Cập nhật mật khẩu định kỳ để bảo vệ tài khoản an toàn</p>
+    </div>
+    <div class="auth-form-scrollable">
+      <form onsubmit="handleChangePassword(event)">
+        <div class="form-group">
+          <label for="currentPassword">Mật khẩu hiện tại</label>
+          <div class="input-with-icon">
+            <input type="password" id="currentPassword" class="input-field" placeholder="Mật khẩu cũ" required>
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('currentPassword', this)">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">Mật khẩu mới</label>
+          <div class="input-with-icon">
+            <input type="password" id="newPassword" class="input-field" placeholder="Tối thiểu 8 ký tự, có số &amp; chữ" required>
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('newPassword', this)">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirmNewPassword">Xác nhận mật khẩu mới</label>
+          <div class="input-with-icon">
+            <input type="password" id="confirmNewPassword" class="input-field" placeholder="Nhập lại mật khẩu mới" required>
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('confirmNewPassword', this)">👁</button>
+          </div>
+        </div>
+        <div class="auth-error-msg" id="changePwdErrorMsg"></div>
+        <button type="submit" class="btn btn-primary btn-auth-submit" id="btnChangePwdSubmit">
+          Lưu thay đổi mật khẩu
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MODAL THÔNG TIN TÀI KHOẢN (ACCOUNT DETAILS)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="accountModal" role="dialog" aria-modal="true">
+  <div class="info-modal-card">
+    <button class="modal-close-btn" onclick="closeAccountModal()" title="Đóng modal (Esc)" aria-label="Đóng">&times;</button>
+    <div class="modal-head-fixed">
+      <h2>👤 Thông Tin Tài Khoản</h2>
+    </div>
+    <div class="info-modal-scrollable">
+      <div style="display:flex;align-items:center;gap:16px;margin:12px 0 20px;padding:16px;background:var(--bg-muted);border-radius:var(--r-md);border:1px solid var(--border)">
+        <div class="user-avatar" id="accModalAvatar" style="width:54px;height:54px;font-size:22px">US</div>
+        <div>
+          <h3 id="accModalName" style="font-size:1.15rem;font-weight:800;color:var(--t1)">Họ tên</h3>
+          <p id="accModalEmail" style="color:var(--t3);font-size:0.85rem">email@example.com</p>
+        </div>
+      </div>
+      <div class="tbl-wrap" style="margin-bottom:16px">
+        <table>
+          <tbody>
+            <tr><td style="width:160px;font-weight:700">Tên đăng nhập:</td><td id="accModalUsername">-</td></tr>
+            <tr><td style="font-weight:700">Vai trò (Role):</td><td><span class="tag-badge" id="accModalRole">Chuyên viên Phân tích</span></td></tr>
+            <tr><td style="font-weight:700">Ngày tạo tài khoản:</td><td id="accModalCreatedAt">-</td></tr>
+            <tr><td style="font-weight:700">Lần đăng nhập cuối:</td><td id="accModalLastLogin">-</td></tr>
+            <tr><td style="font-weight:700">Tổng số lần đăng nhập:</td><td id="accModalLoginCount">-</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px">
+        <button class="btn btn-outline btn-sm" onclick="closeAccountModal(); openChangePasswordModal()">Đổi mật khẩu</button>
+        <button class="btn btn-primary btn-sm" onclick="closeAccountModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MODAL HƯỚNG DẪN SỬ DỤNG HỆ THỐNG (SYSTEM GUIDE)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="guideModal" role="dialog" aria-modal="true">
+  <div class="info-modal-card">
+    <button class="modal-close-btn" onclick="closeGuideModal()" title="Đóng modal (Esc)" aria-label="Đóng">&times;</button>
+    <div class="modal-head-fixed">
+      <h2>📘 Hướng Dẫn Sử Dụng DataMind AI Agent</h2>
+      <p style="color:var(--t2);font-size:0.86rem;margin-top:2px">
+        Quy trình phân tích dữ liệu 5 chặng tuân thủ nguyên tắc <strong>Human-in-the-Loop</strong> — đảm bảo minh bạch và chính xác.
+      </p>
+    </div>
+
+    <div class="info-modal-scrollable">
+      <div class="guide-step-card">
+        <h4>Chặng 1: Nhập dữ liệu &amp; Bắt lỗi</h4>
+        <p>Kéo thả tệp CSV hoặc Excel của bạn, hoặc bấm chọn 1 trong 3 tệp mẫu có sẵn. Nếu tệp lỗi, hệ thống sẽ chặn lại và hướng dẫn sửa ngay.</p>
+      </div>
+
+      <div class="guide-step-card">
+        <h4>Chặng 2: Làm sạch dữ liệu thông minh</h4>
+        <p>AI Agent tự động gợi ý các quy tắc khử trùng lặp, chuẩn hóa ngày tháng, xử lý ngoại lai IQR. Bạn có quyền bật/tắt từng quy tắc và bấm <b>Làm sạch lại</b> để xem trước dữ liệu.</p>
+      </div>
+
+      <div class="guide-step-card">
+        <h4>Chặng 3: Suy luận &amp; Xử lý phân tích</h4>
+        <p>Hệ thống tự động thực thi các thuật toán tính toán thống kê (Mean, Median, Tỷ trọng, Tốc độ tăng trưởng) trên dữ liệu đã chuẩn hóa.</p>
+      </div>
+
+      <div class="guide-step-card">
+        <h4>Chặng 4: Phê duyệt kết quả (Human-in-the-Loop)</h4>
+        <p>Bảng số liệu tổng hợp được đưa ra để bạn đối soát. Tích chọn ô cam kết phê duyệt rồi nhấn xuất báo cáo HTML.</p>
+      </div>
+
+      <div class="guide-step-card">
+        <h4>Chặng 5: Dashboard 4 biểu đồ &amp; Xuất báo cáo</h4>
+        <p>Chiêm ngưỡng 4 biểu đồ trực quan (Cột ngang, Donut, Vùng chuỗi thời gian, Radar chất lượng dữ liệu). Bạn có thể sửa trực tiếp trên báo cáo HTML, tải file HTML độc lập, in PDF hoặc tải dữ liệu sạch CSV.</p>
+      </div>
+
+      <div style="text-align:right;margin-top:16px">
+        <button class="btn btn-primary btn-sm" onclick="closeGuideModal(); scrollToUpload()">Bắt đầu trải nghiệm ngay →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/static/app.js?v=3.9"></script>
+</body>
+</html>

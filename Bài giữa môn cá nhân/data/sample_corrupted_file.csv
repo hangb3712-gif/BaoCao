@@ -1,0 +1,4 @@
+# TỆP DỮ LIỆU BỊ HỎNG ĐỂ KIỂM THỬ CƠ CHẾ BÁO LỖI CỦA AI AGENT
+Dòng này không có định dạng bảng dữ liệu hợp lệ.
+Thiếu dấu phân cách, thiếu cột, cấu trúc văn bản rời rạc không thể parse thành DataFrame.
+### ERROR_SIMULATION_CORRUPTED_FILE ###

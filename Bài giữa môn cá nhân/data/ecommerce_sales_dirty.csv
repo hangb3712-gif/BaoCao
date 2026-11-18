@@ -1,0 +1,33 @@
+order_id,order_date,customer_name,region,category,product_name,quantity,unit_price,discount_pct,revenue,customer_rating,payment_method,status
+ORD-1001,2026-01-05,Nguyễn Văn An,Miền Bắc,Điện tử,Tai nghe Bluetooth Pro,2,1250000,10,2250000,4.8,Ví điện tử,Hoàn thành
+ORD-1002,2026-01-06,Trần Thị Bích,Miền Nam,Thời trang,Áo khoác Gió Unisex,1,650000,0,650000,4.5,Thẻ tín dụng,Hoàn thành
+ORD-1002,2026-01-06,Trần Thị Bích,Miền Nam,Thời trang,Áo khoác Gió Unisex,1,650000,0,650000,4.5,Thẻ tín dụng,Hoàn thành
+ORD-1003,2026/01/08,  lê hoàng nam  ,Miền Trung,Gia dụng,Nồi chiên không dầu 6L,1,2400000,15,2040000,,COD,Hoàn thành
+ORD-1004,2026-01-10,Phạm Minh Tuấn,Miền Bắc,Điện tử,Chuột Gaming Không Dây,3,850000,5,2422500,4.9,Ví điện tử,Hoàn thành
+ORD-1005,2026-01-12,Hoàng Thu Trang,mien nam,Mỹ phẩm,Serum Dưỡng Ẩm Cấp Nước,2,520000,,1040000,4.7,Chuyển khoản,Hoàn thành
+ORD-1006,2026-01-14,Vũ Đức Thắng,Miền Bắc,Điện tử,Bàn phím Cơ RGB,-2,1500000,10,2700000,4.2,COD,Hoàn thành
+ORD-1007,2026-01-15,Đặng Ngọc Mai,Miền Nam,Gia dụng,Máy hút bụi Cầm tay,1,1890000,10,1701000,4.6,Thẻ tín dụng,Hoàn thành
+ORD-1008,2026-01-18,Bùi Quang Huy,Miền Trung,Điện tử,Laptop Văn Phòng 14 inch,1,16500000,5,15675000,5.0,Chuyển khoản,Hoàn thành
+ORD-1009,2026-01-20,Ngô Thị Lan,,Thời trang,Giày Sneaker Thể Thao,2,980000,10,1764000,4.3,COD,Hoàn thành
+ORD-1010,2026-01-22,Dương Văn Kiên,Miền Bắc,Điện tử,Tai nghe Bluetooth Pro,99,1250000,0,123750000,4.1,Chuyển khoản,Hoàn thành
+ORD-1011,2026-01-24,Lý Thanh Thảo,Miền Nam,Mỹ phẩm,Kem Chống Nắng SPF50,3,380000,5,1083000,8.5,Ví điện tử,Hoàn thành
+ORD-1012,2026-01-25,Trịnh Quốc Bảo,Miền Bắc,Gia dụng,Máy lọc không khí Smart,1,3200000,10,2880000,4.7,Thẻ tín dụng,Hoàn thành
+ORD-1012,2026-01-25,Trịnh Quốc Bảo,Miền Bắc,Gia dụng,Máy lọc không khí Smart,1,3200000,10,2880000,4.7,Thẻ tín dụng,Hoàn thành
+ORD-1013,2026-02-01,Phan Thị Tuyết,Miền Trung,Thời trang,Túi xách Da Công Sở,1,1150000,0,1150000,4.4,COD,Đang giao
+ORD-1014,2026-02-03,  đỗ minh khôi,Miền Nam,Điện tử,Sạc dự phòng 20000mAh,4,550000,10,1980000,,Ví điện tử,Hoàn thành
+ORD-1015,2026-02-05,Hồ Thị Hương,Miền Bắc,Mỹ phẩm,Son Kem Lì Cao Cấp,2,420000,0,840000,4.8,Ví điện tử,Hoàn thành
+ORD-1016,2026-02-07,Võ Văn Đạt,MIỀN BẮC,Gia dụng,Bình đun siêu tốc Inox,2,490000,5,931000,4.2,COD,Hoàn thành
+ORD-1017,2026-02-10,Đinh Thị Ngọc,Miền Nam,Điện tử,Màn hình IPS 27 inch,1,4600000,10,4140000,4.9,Thẻ tín dụng,Hoàn thành
+ORD-1018,2026-02-12,Lương Gia Bách,Miền Trung,Thời trang,Áo Sơ Mi Oxford Nam,3,450000,,1350000,4.5,COD,Hoàn thành
+ORD-1019,2026-02-14,Tạ Bích Phương,Miền Nam,Mỹ phẩm,Nước Tẩy Trang Dịu Nhẹ,2,310000,0,620000,4.6,Ví điện tử,Hoàn thành
+ORD-1020,2026-02-16,Châu Tuấn Kiệt,Miền Bắc,Điện tử,Webcam Full HD 1080p,1,,10,891000,4.3,Chuyển khoản,Hoàn thành
+ORD-1021,2026-02-18,Mai Thị Yến,Miền Nam,Gia dụng,Nồi chiên không dầu 6L,2,2400000,15,4080000,4.8,Thẻ tín dụng,Hoàn thành
+ORD-1022,2026-02-20,Kiều Minh Đức,Miền Bắc,Điện tử,Chuột Gaming Không Dây,2,850000,0,1700000,4.7,Ví điện tử,Hoàn thành
+ORD-1023,2026-02-22,Hà Thu Thủy,,Mỹ phẩm,Serum Dưỡng Ẩm Cấp Nước,1,520000,5,494000,4.5,COD,Hoàn thành
+ORD-1024,2026-02-24,Nghiêm Xuân Trường,Miền Trung,Gia dụng,Robot Hút Bụi Lau Nhà,1,6800000,15,5780000,4.9,Thẻ tín dụng,Hoàn thành
+ORD-1025,2026-02-26,Quách Bảo Ngọc,Miền Nam,Thời trang,Váy Công Sở Thanh Lịch,2,790000,10,1422000,,Ví điện tử,Hoàn thành
+ORD-1026,2026-02-28,Tô Văn Hưng,Miền Bắc,Điện tử,Loa Bluetooth Mini,3,690000,5,1966500,4.4,COD,Hoàn thành
+ORD-1027,2026-03-02,Đoàn Minh Tâm,Miền Nam,Điện tử,Tai nghe Bluetooth Pro,2,1250000,10,2250000,4.8,Ví điện tử,Hoàn thành
+ORD-1028,2026-03-05,Lâm Quốc Khánh,Miền Trung,Gia dụng,Máy pha cà phê Espresso,1,3900000,10,3510000,4.6,Chuyển khoản,Hoàn thành
+ORD-1029,2026-03-08,Trương Mỹ Linh,Miền Bắc,Mỹ phẩm,Bộ Chăm Sóc Da Ban Đêm,1,1350000,10,1215000,4.9,Thẻ tín dụng,Hoàn thành
+ORD-1030,2026-03-10,Phùng Thế Vinh,Miền Nam,Điện tử,Ổ cứng SSD NVMe 1TB,2,2150000,5,4085000,4.8,Chuyển khoản,Hoàn thành
